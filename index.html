@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+    <link rel="stylesheet" href="css/all.css">
+    <title>Drawing App</title>
+</head>
+<body>
+    <div id="Top-bar" class="w-100 bg-white font-size-xs position-absolute p-1 d-flex flex-row flex-wrap justify-content-center align-items-center">
+        <button class="mr-3">
+            <i class="fas fa-save"></i>
+            SAVE
+        </button>
+        <button onclick="drawboard.ClearCanvas()" class="mr-3">
+            <i class="fas fa-expand"></i>
+            CLEAR
+        </button>
+        <button onclick="drawboard.undo()"lass="mr-3">
+            <i class="fas fa-undo"></i>
+            UNDO
+        </button>
+        <button onclick="drawboard.redo()" class="">
+            <i class="fas fa-redo"></i>
+            REDO
+        </button>
+        <button onclick="OpenTopBar()" id="open-top-bar" class="bg-white border-circle position-absolute" style="bottom: -25px;">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+    <div id="pen-type" class="bg-white shadow-primary position-absolute d-flex flex-row flex-wrap justify-content-center align-content-start">
+        <div id="btn-group" class="d-flex flex-row justify-content-center position-sticky col-4">
+            <button id="pen-library" onclick="OpenLibrary()" class="text-black bg-white col-2" type="button">Library</button>
+            <button id="pen-setting" onclick="OpenSetting()" class="text-darkgray bg-gray col-2" type="button">Setting</button>
+        </div>
+        <div id="setting-container" class="display-none">
+            <div onclick="ChangeTopBrushImage(Event,'penTypeOne')" class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Simple pencil</span>
+                <img id="setting-img"  class="col-4 mb-3 shadow-secondary" src="brush/display-image/penTypeOne.jpg" alt="penType1" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+            <div id="pen-type-size" class="d-flex flex-row flex-wrap justify-content-between align-items-center p-1">
+                <span class="col-2 text-left">Size</span>
+                <span id="pen-type-size-value" class="col-2 text-right">1px</span>
+                <input oninput="SettingPenSize()" type="range" name="" id="" class="col-4" max="50" min="1" value="1">
+            </div>
+            <div id="pen-type-opacity" class="d-flex flex-row flex-wrap justify-content-between align-items-center p-1">
+                <span class="col-2 text-left">opacity</span>
+                <span id="pen-type-opacity-value" class="col-2 text-right">100%</span>
+                <input oninput="SettingPenOpacity()" type="range" name="" id="" class="col-4" max="100" min="0" value="100">
+            </div>
+            <div id="pen-type-linejoin" class="d-flex flex-row flex-wrap justify-content-between align-items-center p-1 pr-0">
+                <span class="col-4 mb-2 text-left">linejoin</span>
+                <div class="col">
+                    <input onclick="ChangeLineJoin(this)" type="radio" id="miter" name="linejoin" value="miter" checked>
+                    <label for="miter">miter</label>
+                </div>
+                <div class="col">
+                    <input onclick="ChangeLineJoin(this)" type="radio" id="bevel" name="linejoin" value="bevel">
+                    <label for="bevel">bevel</label>
+                </div>
+                <div class="col">
+                    <input onclick="ChangeLineJoin(this)" type="radio" id="round" name="linejoin" value="round">
+                    <label for="round">round</label>
+                </div>
+            </div>
+            <div id="pen-type-lineCap" class="d-flex flex-row flex-wrap justify-content-between align-items-center p-1 pr-0">
+                <span class="col-4 mb-2 text-left">lineCap</span>
+                <div class="col">
+                    <input onclick="ChangeLineCap(this)" type="radio" id="butt" name="lineCap" value="butt" checked>
+                    <label for="butt">butt</label>
+                </div>
+                <div class="col">
+                    <input onclick="ChangeLineCap(this)" type="radio" id="square" name="lineCap" value="square">
+                    <label for="square">square</label>
+                </div>
+                <div class="col">
+                    <input onclick="ChangeLineCap(this)" type="radio" id="round" name="lineCap" value="round">
+                    <label for="round">round</label>
+                </div>
+            </div>
+        </div>
+        
+        <div id="library-container" class="display-block">
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Simple pencil</span>
+                <img  class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeOne')" src="brush/display-image/penTypeOne.jpg" alt="penType1" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">variable segment width</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeTwo')" src="brush/display-image/penTypeTwo.jpg" alt="penType2" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">multiple strokes</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeThree')" src="brush/display-image/penTypeThree.jpg" alt="penType3" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Brush</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeFour')" src="brush/display-image/penTypeFour.jpg" alt="penType4" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Sliced</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeFive')" src="brush/display-image/penTypeFive.jpg" alt="penType5" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Circle trail</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeSix')" src="brush/display-image/penTypeSix.jpg" alt="penType6" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Multiple lines</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeSeven')" src="brush/display-image/penTypeSeven.jpg" alt="penType7" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Random radius trail</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeEight')" src="brush/display-image/penTypeEight.jpg" alt="penType8" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Star</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'PenTypeNine')" src="brush/display-image/penTypeNine.jpg" alt="penType9" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+    
+            <div class="d-flex flex-row flex-wrap justify-content-center align-items-center p-1">
+                <span class="col-4 mb-1">Spray</span>
+                <img class="col-4 mb-3 shadow-secondary" onclick="ChangeTopBrushImage(Event,'penTypeTen')" src="brush/display-image/penTypeTen.jpg" alt="penType10" srcset="">
+                <div class="border-normal" style="width: 100%;border-color: rgba(0, 0, 0, 0.36)"></div>
+            </div>
+        </div>
+    </div>
+    <div id="bottom-bar" class="w-50 bg-white shadow-primary font-size-xs position-absolute p-1 mb-3 border-round d-flex flex-row flex-wrap justify-content-around align-items-center">
+        <!-- onclick="drawboard.NormalPen('penTypeTwo')"   -->
+        <button onclick="OpenPenType()" class="position-relative">
+            <i class="fas fa-pen-nib font-size-sm"></i>
+        </button>
+        <button class="d-flex flex-row align-items-center">
+            <div id="pen-size" class="bg-white p-1 border-round-second shadow-primary position-absolute d-flex flex-row justify-content-center align-items-center fade">
+                <input oninput="ChangePenSize()" class="mr-1" type="range" max="50" min="1" value="1">
+                <span class="mr-1">1px</span>
+                <div class="bg-black p-1 border-circle"></div>
+            </div>
+            <span class="p-1">SIZE:</span>
+            <div onclick="OpenPenSize()" id="pen-size-text" class="bg-darkgray p-1 border-round-second">1</div>
+            <span class="p-1">px</span>
+        </button>
+        <button class="d-flex flex-row justify-content-center align-items-center position-relative">
+            <div id="color-picker-container" class="fade bg-white p-1 position-absolute border-round-second shadow-primary">
+                <canvas id="color-picker" class="border-round-second"></canvas>
+            </div>
+            <span class="p-1">COLOR:</span>
+            <div onclick="OpenColorPicker()" id="color-circle" class="bg-white p-3 border-normal border-circle"></div>
+        </button>
+        <button onclick="OpenBottomBar()" id="open-bottom-bar" class="bg-white border-circle position-absolute" style="top: -25px;">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script type="text/javascript" src="js/all.js"></script>
+</body>
+</html>

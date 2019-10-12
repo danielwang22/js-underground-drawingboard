@@ -1,0 +1,6 @@
+//grid
+//格線
+@mixin makegrid($col){
+    flex: 0 0 (100% * $col);
+    max-width: (100% * $col);
+}

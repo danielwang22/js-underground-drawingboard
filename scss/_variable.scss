@@ -1,0 +1,29 @@
+$color-black:#000000;
+$color-white:#fff;
+$color-darkgray:rgba(0, 0, 0, 0.16);
+$color-gray:#E8E8E8;
+
+$color-theme:(
+    black:"#000000",
+    white:"#fff",
+    darkgray:"rgba(0, 0, 0, 0.16)",
+    gray:"#E8E8E8"
+);
+//spacer
+$spacer: 10px !default;
+$spacers:(
+    0: 0,
+    1: $spacer,
+    2: ($spacer * 1.2),
+    3: ($spacer * 1.4),
+    4: ($spacer * 2.2),
+    5: ($spacer * 4),
+    6: ($spacer * 4.5),
+);
+//font size
+$fontSize: (
+    xs: 1.25rem,
+    sm: 2rem,
+    md: 3rem,
+    lg: 4rem
+);

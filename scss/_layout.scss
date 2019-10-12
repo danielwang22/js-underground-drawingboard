@@ -1,0 +1,31 @@
+.w-100{
+    width: 100%;
+}
+.w-75{
+    width: 75%;
+}
+.w-50{
+    width: 50%;
+}
+.w-25{
+    width: 25%;
+}
+.h-none{
+    height: 0;
+}
+.show{
+    visibility: visible !important;
+    animation: fade 1s;
+}
+.fade{
+    visibility: hidden;
+}
+.silde-out{
+    left: 0 !important;
+}
+.display-none{
+    display: none;
+}
+.display-block{
+    display: block;
+}

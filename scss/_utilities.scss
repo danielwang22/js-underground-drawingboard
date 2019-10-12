@@ -1,0 +1,45 @@
+.col{
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+  }
+  @for $i from 1 through 4{
+    .col-#{$i}{
+      @include makegrid($i / 4)
+    }
+  }
+//背景外框
+@each $theme,$color in $color-theme {
+    .bg-#{$theme}{
+        background-color: #{$color};
+    }
+    .text-#{$theme}{
+        color: #{$color};
+    }
+}
+//文字大小
+@each $size,$length in $fontSize {
+  .font-size-#{$size}{
+    font-size: #{$length};
+  }
+}
+//spacer
+@each $prop, $abbrev in (margin: m, padding: p) {
+    @each $size, $length in $spacers {
+        .#{$abbrev}t-#{$size}{
+            #{$prop}-top: $length;
+        }
+        .#{$abbrev}r-#{$size}{
+            #{$prop}-right: $length;
+        }
+        .#{$abbrev}b-#{$size}{
+            #{$prop}-bottom: $length;
+        }
+        .#{$abbrev}l-#{$size}{
+            #{$prop}-left: $length;
+        }
+        .#{$abbrev}-#{$size} { 
+            #{$prop}: $length; 
+        }
+    }
+}
